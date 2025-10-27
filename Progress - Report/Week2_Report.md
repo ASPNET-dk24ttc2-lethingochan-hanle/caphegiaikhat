@@ -1,4 +1,4 @@
-BÁO CÁO TIẾN ĐỘ TUẦN
+#BÁO CÁO TIẾN ĐỘ TUẦN 2
 # Thông tin chung
   * Họ và tên:Lê Thị Ngọc Hân
   * Lớp / Nhóm:DK24TTC2
