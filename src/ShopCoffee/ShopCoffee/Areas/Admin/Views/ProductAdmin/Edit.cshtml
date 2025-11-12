@@ -1,0 +1,84 @@
+﻿@model ShopCoffee.Database.Product
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h4 class="mb-4">Chỉnh sửa</h4>
+
+<div class="row">
+    <div class="col-md-6">
+
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ProductId" />
+
+            <div class="form-group mb-3">
+                <label asp-for="Title" class="form-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Content" class="form-label"></label>
+                <textarea asp-for="Content" class="form-control" rows="5" ></textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+
+            <!-- Ảnh Preview -->
+            <div class="form-group mb-3">
+                <label class="form-label">Ảnh sản phẩm</label>
+
+                <div class="mb-2">
+                    <img id="previewImg"
+                         src="@Model.Img"
+                         style="width:200px;height:auto;border:1px solid #ccc;border-radius:6px;cursor:pointer;"
+                         title="Click để chọn ảnh mới"
+                         onclick="document.getElementById('fileImg').click();" />
+                </div>
+
+                <!-- input file ẩn -->
+                <input type="file"
+                       id="fileImg"
+                       name="fileImg"
+                       accept="image/*"
+                       style="display:none;"
+                       onchange="previewFile(this)" />
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Price" class="form-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="CategoryId" class="form-label"></label>
+                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+
+            <input asp-for="CreateAt" type="hidden" class="form-control" />
+
+            <button type="submit" class="btn btn-primary">Lưu</button>
+            <a asp-action="Index" class="btn btn-secondary ms-2">Trở lại</a>
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        function previewFile(input) {
+            const file = input.files[0];
+            const img = document.getElementById("previewImg");
+
+            if (file) {
+                img.src = URL.createObjectURL(file);     // hiển thị ảnh mới
+            }
+        }
+    </script>
+}

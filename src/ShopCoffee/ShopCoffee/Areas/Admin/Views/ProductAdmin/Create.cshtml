@@ -1,0 +1,134 @@
+﻿@model ShopCoffee.Database.Product
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h4 class="mb-4 ">Thêm đồ uống mới</h4>
+
+<div class="row">
+    <div class="col-md-6">
+
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ProductId" />
+
+            <div class="form-group mb-3">
+                <label asp-for="Title" class="form-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Content" class="form-label"></label>
+                <textarea asp-for="Content" class="form-control" rows="5" ></textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+
+            <!-- Ảnh Preview -->
+            <div class="form-group mb-3">
+                <label class="form-label">Ảnh sản phẩm</label>
+                <div class="mb-2">
+                    <img id="previewImg"
+                         src="@(string.IsNullOrEmpty(Model.Img) ? Url.Content("~/images/placeholder.png") : Model.Img)"
+                         style="width:200px;height:auto;border:1px solid #ccc;border-radius:6px;cursor:pointer;"
+                         title="Click để chọn ảnh mới"
+                         onclick="document.getElementById('fileImg').click();" />
+                </div>
+
+                <!-- input file ẩn -->
+                <input type="file"
+                       id="fileImg"
+                       name="fileImg"
+                       accept="image/*"
+                       style="display:none;"
+                       onchange="previewFile(this)" />
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Price" class="form-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="CategoryId" class="form-label"></label>
+                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-success">Thêm</button>
+            <a asp-action="Index" class="btn btn-secondary ms-2">Trở lại</a>
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        function previewFile(input) {
+            const file = input.files[0];
+            const img = document.getElementById("previewImg");
+
+            if (file) {
+                img.src = URL.createObjectURL(file);
+            }
+        }
+    </script>
+}
+
+
+@* @model ShopCoffee.Database.Product
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Product</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Content" class="control-label"></label>
+                <input asp-for="Content" class="form-control" />
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Ảnh sản phẩm</label>
+                <input type="file" name="fileImg" class="form-control" accept="image/*" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CategoryId" class="control-label"></label>
+                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} *@
