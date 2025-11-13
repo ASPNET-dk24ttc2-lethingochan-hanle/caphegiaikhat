@@ -1,21 +1,24 @@
-﻿using ShopCoffee.Database;
-using ShopCoffee.Helpers;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.Elfie.Serialization;
 using Microsoft.EntityFrameworkCore;
+using ShopCoffee.Attributes;
+using ShopCoffee.Database;
+using ShopCoffee.Helper; // cho phân trang
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using X.PagedList;
-using X.PagedList.Extensions; // cho phân trang
+using X.PagedList.Extensions;
 
 
 namespace ShopCoffee.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Role("Administrator")]
     public class ProductAdminController : Controller
     {
         private readonly ShopCoffeeContext _context;

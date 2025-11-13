@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace ShopCoffee.Helpers
+namespace ShopCoffee.Helper
 {
     public static class FileHelper
     {

@@ -1,0 +1,134 @@
+﻿@model ShopCoffee.Database.Customer
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h4>Chỉnh sửa tài khoản</h4>
+
+<hr />
+<div class="row ml-4">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label fw-semibold"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label fw-semibold"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label fw-semibold "></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone" class="control-label fw-semibold"></label>
+                <input asp-for="Phone" type="tel" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label fw-semibold"></label>
+                <input asp-for="Email" type="email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            @* <div class="form-group">
+                <label asp-for="Img" class="control-label"></label>
+                <input asp-for="Img" class="form-control" />
+                <span asp-validation-for="Img" class="text-danger"></span>
+            </div> *@
+            <div class="form-group">
+                <label asp-for="Img" class="form-label fw-semibold">Ảnh đại diện</label>
+                <input asp-for="Img" type="file" accept="image/*" class="form-control" id="imgInput" />
+                <span asp-validation-for="Img" class="text-danger"></span>
+
+                <div class="mt-2 text-center">
+                    <img id="imgPreview"
+                         src="@(!string.IsNullOrEmpty(Model.Img) ? Model.Img : "#")"
+                         alt="Preview ảnh"
+                         class="img-thumbnail mt-2"
+                         style="max-height: 150px; @(string.IsNullOrEmpty(Model.Img) ? "display:none;" : "display:block;")" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DateOfBirth" class="control-label fw-semibold"></label>
+                <input asp-for="DateOfBirth" type="date" class="form-control" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="">
+                <label asp-for="Password" class="form-label fw-semibold"></label>
+                <input asp-for="Password" type="password" class="form-control" placeholder="Nhập mật khẩu..." />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex align-items-center">
+                <div class="form-check mt-4">
+                    <input asp-for="IsActive" type="checkbox" class="form-check-input" checked />
+                    <label asp-for="IsActive" class="form-check-label fw-semibold">
+                        Kích hoạt tài khoản
+                    </label>
+                </div>
+                <span asp-validation-for="IsActive" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex pt-3 pb-5 align-items-center">
+                <label asp-for="Role" class="form-label fw-semibold mr-2" style="white-space:nowrap"></label>
+                <select asp-for="Role" class="form-select">
+                    <option value="1">Người dùng</option>
+                    <option value="0">Quản trị viên</option>
+                </select>
+                <span asp-validation-for="Role" class="text-danger"></span>
+            </div>
+
+            <input asp-for="RegisteredAt" type="hidden" class="form-control" />
+            <input asp-for="CustomerId" type="hidden" class="form-control" />
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-success mr-2">
+                    <i class="fa fa-save"></i> Lưu
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fa fa-arrow-left"></i> Trở lại
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@* <div>
+    <a asp-action="Index">Back to List</a>
+</div> *@
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+           const imgInput = document.getElementById('imgInput');
+        const imgPreview = document.getElementById('imgPreview');
+
+        // Lưu đường dẫn ảnh cũ (nếu có)
+        const originalSrc = imgPreview.src;
+
+        imgInput.addEventListener('change', function (event) {
+            const [file] = event.target.files;
+            if (file) {
+                imgPreview.src = URL.createObjectURL(file);
+                imgPreview.style.display = 'block';
+            } else {
+                // Nếu không chọn file, hiển thị lại ảnh cũ
+                if (originalSrc && originalSrc !== window.location.href + '#') {
+                    imgPreview.src = originalSrc;
+                    imgPreview.style.display = 'block';
+                } else {
+                    imgPreview.style.display = 'none';
+                }
+            }
+        });
+    </script>
+}
