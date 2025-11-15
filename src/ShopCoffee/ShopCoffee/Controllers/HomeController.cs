@@ -35,5 +35,11 @@ namespace ShopCoffee.Controllers
             return View();
         }
 
+        [Route("/404")]
+        public IActionResult PageNotfound()
+        {
+            return View();
+        }
+
     }
 }

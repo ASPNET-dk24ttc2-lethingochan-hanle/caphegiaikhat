@@ -1,0 +1,211 @@
+﻿@model X.PagedList.IPagedList<ShopCoffee.Database.Product>
+@using X.PagedList.Mvc.Core
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!-- Single Page Header start -->
+@* <div class="container-fluid page-header py-5">
+    <h1 class="text-center text-white display-6">Shop</h1>
+    <ol class="breadcrumb justify-content-center mb-0">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a href="#">Pages</a></li>
+        <li class="breadcrumb-item active text-white">Shop</li>
+    </ol>
+</div> *@
+<!-- Single Page Header End -->
+<!-- Fruits Shop Start-->
+<div class="container-fluid fruite py-5">
+    <div class="container py-5">
+        <h1 class="mb-4">Coffee Shop</h1>
+        <div class="row g-4">
+            <div class="col-lg-12">
+                <div class="row g-4">
+                    <div class="col-xl-3">
+                        <form asp-action="Index" method="get">
+                            <div class="input-group w-100 mx-auto d-flex">
+
+                                <input type="text"
+                                       name="searchString" value="@ViewData["CurrentFilter"]"
+                                       class="form-control p-3"
+                                       placeholder="Tìm kiếm..."
+                                       aria-describedby="search-icon-1" />
+                                <button type="submit" id="search-icon-1" class="input-group-text p-3">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="col-6"></div>
+                    <div class="col-xl-3">
+                        <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
+                            @* <label for="fruits">Sắp xếp:</label>
+                            <select id="fruits"
+                                    name="fruitlist"
+                                    class="border-0 form-select-sm bg-light me-3"
+                                    form="fruitform">
+                                <option value="volvo">Nothing</option>
+                                <option value="saab">Popularity</option>
+                                <option value="opel">Organic</option>
+                                <option value="audi">Fantastic</option>
+                            </select> *@
+                            <form id="fruitform" method="get" asp-action="Index">
+                                <label for="fruitlist">Sắp xếp:</label>
+                                <select id="fruitlist" name="sortOrder" class="border-0 form-select-sm bg-light me-3"
+                                        onchange="this.form.submit()">
+                                    <option value="">Tên món A-Z</option>
+                                    <option value="name_desc">Tên món Z-A</option>
+                                    <option value="Price_desc">Giảm dần theo Giá</option>
+                                    <option value="Price">Tăng dần theo Giá</option>
+                                </select>
+
+                                <!-- Giữ các filter khác -->
+                                <input type="hidden" name="searchString" value="@ViewData["CurrentFilter"]" />
+                                <input type="hidden" name="categoryId" value="@ViewData["CurrentCategory"]" />
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-4">
+
+                    <!-- Right Panel Start-->
+                    <div class="col-lg-12">
+                        <div class="row g-4 justify-content-center">
+                            @foreach (var item in Model)
+                            {
+                                <!-- Item 1 Start -->
+                                <div class="col-md-6 col-lg-6 col-xl-4">
+                                    <div class="rounded position-relative fruite-item">
+                                        <div class="fruite-img">
+                                            <a asp-area="" asp-controller="Product" asp-action="Detail" asp-route-id="@item.ProductId">
+                                                <img src="@item.Img"
+                                                     class="img-fluid w-100 rounded-top"
+                                                     alt=""
+                                                     style="width:100px; aspect-ratio:1.5; object-fit:cover; border-radius:6px; overflow:hidden; margin: 2px" />
+                                            </a>
+                                        </div>
+                                        <div class="text-white bg-secondary px-3 py-1 rounded position-absolute"
+                                             style="top: 10px; left: 10px">
+                                            @item.Category.Title
+                                        </div>
+                                        <div class="fruit-title p-4 border border-secondary border-top-0 rounded-bottom">
+                                            <a asp-area="" asp-controller="Product" asp-action="Detail" asp-route-id="@item.ProductId">
+                                            <h5>@item.Title</h5>
+                                            </a>
+                                            <div class="d-flex justify-content-between flex-lg-wrap">
+                                                <p class="text-dark fs-5 fw-bold mb-0">@item.Price.ToString("N0") đ</p>
+
+                                            </div>
+                                            <div class="d-flex justify-content-end">
+                                                <a href="#"
+                                                   class="btn border border-secondary rounded-pill px-3 text-primary">
+                                                    <i class="fa fa-shopping-bag me-2 text-primary"></i> Thêm giỏ hàng
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Item 1 End -->
+                            }
+
+                            <!-- Pagination Start-->
+                            @* <div class="col-12">
+                                <div class="pagination d-flex justify-content-center mt-5">
+                                    @Html.PagedListPager(Model, page => Url.Action("Index", new
+                                    {
+                                        page,
+                                                                        searchString = ViewData["CurrentFilter"],
+                                                                        categoryId = ViewData["CurrentCategory"],
+                                                                        sortOrder = ViewData["CurrentSort"]
+                                                                        }),
+                                                                        new X.PagedList.Mvc.Core.PagedListRenderOptions
+                                                                        {
+                                                                            LiElementClasses = new[] { "page-item" },
+                                                                            PageClasses = new[] { "page-link" },
+                                                                            ActiveLiElementClass = "active",
+                                                                            UlElementClasses = new[] { "pagination" }
+                                                                        })
+                                </div>
+                            </div> *@
+                            <div class="d-flex align-items-center justify-content-center mt-5">
+                                @Html.PagedListPager( Model,  page => Url.Action("Index", new { page }),
+                                new X.PagedList.Mvc.Core.PagedListRenderOptions
+                                {
+                                    UlElementClasses = new[] { "pagination" },
+                                    LiElementClasses = new[] { "page-item" },
+                                    PageClasses = new[] { "page-link" },
+                                }
+                                                                )
+                            </div>
+
+
+
+                            @* <div class="col-12">
+                                <div class="pagination d-flex justify-content-center mt-5">
+                                    <a href="#" class="rounded">&laquo;</a>
+                                    <a href="#" class="active rounded">1</a>
+                                    <a href="#" class="rounded">2</a>
+                                    <a href="#" class="rounded">3</a>
+                                    <a href="#" class="rounded">4</a>
+                                    <a href="#" class="rounded">5</a>
+                                    <a href="#" class="rounded">6</a>
+                                    <a href="#" class="rounded">&raquo;</a>
+                                </div>
+                            </div> *@
+                            <!-- Pagination End-->
+                        </div>
+                    </div>
+                    <!-- Right Panel End -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const ul = document.querySelector(".pagination");
+        if(ul){
+            ul.style.display = "flex";
+            ul.style.flexDirection = "row";
+            ul.style.gap = "6px";
+            ul.style.listStyle = "none";
+            ul.style.padding = "0";
+            ul.style.margin = "0";
+        }
+    });
+</script>
+
+<style>
+    .pagination {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 6px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .pagination .page-item {
+            display: flex !important;
+        }
+
+        .pagination .page-link:hover {
+            background-color: #e9ecef;
+            color: #0056b3;
+        }
+
+        /* Item active */
+        .pagination .page-item.active .page-link {
+            @* background-color: #007bff; /* nền màu xanh */ *@
+            color: white; /* chữ màu trắng */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            @* border-color: #007bff; /* viền xanh */ *@
+            cursor: default;
+        }
+</style>
+
+<!-- Fruits Shop End-->
