@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using ShopCoffee.Database;
+using System.Runtime.Intrinsics.X86;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +40,16 @@ builder.Services.AddDbContext<ShopCoffeeContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("CoffeeShop"));
 });
 
+
+// Use Session
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromSeconds(10);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -50,6 +61,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseSession();
+
 
 // các middleware khác
 app.UseHttpsRedirection();
